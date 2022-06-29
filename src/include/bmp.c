@@ -83,7 +83,6 @@ void __bmp_process_grey_scale_rgb(uint8_t *pixel_data, size_t byte_offset,
 		break; // no imp
 	case BMP_BITS_PER_PIXEL_TWENTYFOUR:
 	case BMP_BITS_PER_PIXEL_THIRTYTWO:
-
 		double avg = ((double) pixel_data[byte_offset]
 				+ pixel_data[byte_offset + 1] + pixel_data[byte_offset + 2])
 				/ 3; // memoization possible?
@@ -336,6 +335,9 @@ int bmp_load(char *data, struct bmp_structure *dest) {
 				"Pixel array starts away from file. Pixel array start %x, file size %x.\n",
 				to_ret.bitmap_header.pixel_start,
 				to_ret.bitmap_header.file_size);
+
+		if(to_ret.dib_header.extra)
+			free(to_ret.dib_header.extra);
 		return -1;
 	}
 
